@@ -21,12 +21,6 @@ const SideDrawerLinks: Array<{ href: string; text: string }> = [
   },
 ];
 
-const NavLink = (props: { href: string; children: string }) => (
-  <li>
-    <a href={props.href}>{props.children}</a>
-  </li>
-);
-
 const NavWrapper = (props: { children: React.JSX.Element }) => (
   <div className="drawer">
     <input id="side-drawer" className="drawer-toggle" type="checkbox" />
@@ -41,11 +35,11 @@ const NavWrapper = (props: { children: React.JSX.Element }) => (
       </ul>
     </div>
     <div className="drawer-content">
-      <nav className="navbar bg-primary">
+      <nav className="navbar bg-base-200">
         <div>
           <label
-            htmlFor="side-drawer"
             className="btn btn-ghost btn-square drawer-button btn-md p-2"
+            onClick={() => document.getElementById("side-drawer")?.click()}
           >
             <RxHamburgerMenu className="w-full h-full" />
           </label>
@@ -59,7 +53,9 @@ const NavWrapper = (props: { children: React.JSX.Element }) => (
         {/* Empty end to actually center navbar-center */}
         <div className="navbar-end" />
       </nav>
-      {props.children}
+      <main className="p-5 flex flex-col items-center">
+        <div className="max-w-screen-xl w-full">{props.children}</div>
+      </main>
     </div>
   </div>
 );
