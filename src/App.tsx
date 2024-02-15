@@ -21,7 +21,7 @@ const NavWrapper = (props: { children: React.JSX.Element }) => (
       </ul>
     </div>
     <div className="drawer-content">
-      <nav className="navbar bg-base-200">
+      <nav className="navbar bg-base-300">
         <div>
           <label
             htmlFor="side-drawer"
@@ -30,11 +30,14 @@ const NavWrapper = (props: { children: React.JSX.Element }) => (
             <RxHamburgerMenu className="w-full h-full" />
           </label>
         </div>
-        <div className="navbar-start">
-          <a href="." className="btn text-xl">
+        <div className="navbar-start"></div>
+        <div className="navbar-center">
+          <a href="." className="btn no-animation btn-ghost text-xl">
             Your CookBook
           </a>
         </div>
+        {/* Empty end to actually center navbar-center */}
+        <div className="navbar-end" />
       </nav>
       {props.children}
     </div>
