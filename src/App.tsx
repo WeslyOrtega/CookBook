@@ -1,30 +1,51 @@
+import { RxHamburgerMenu } from "react-icons/rx";
+
 import Home from "./pages/home/Home";
 
-function App() {
-  const NavLink = (props: { href: string; children: string }) => (
-    <li className="hover:bg-primary-dark transition-colors p-1">
-      <a href={props.href}>{props.children}</a>
-    </li>
-  );
+const NavLink = (props: { href: string; children: string }) => (
+  <li>
+    <a href={props.href}>{props.children}</a>
+  </li>
+);
 
-  return (
-    <div className="flex flex-row">
-      <nav className="flex flex-col items-center w-72 h-screen p-7 gap-7">
-        <h1 className="text-2xl font-semibold">CookBook</h1>
-        <div className="w-full">
-          <input className="w-full" type="text" placeholder="Search" />
-        </div>
-        <ul className="w-full text-xl font-semibold flex flex-col gap-2">
-          <NavLink href=".">Add a recipe</NavLink>
-          <NavLink href=".">Home</NavLink>
-          <NavLink href=".">Recipes</NavLink>
-          <NavLink href=".">About</NavLink>
-        </ul>
-      </nav>
-      <article className="w-full p-10">
-        <Home />
-      </article>
+const NavWrapper = (props: { children: React.JSX.Element }) => (
+  <div className="drawer">
+    <input id="side-drawer" className="drawer-toggle" type="checkbox" />
+    <div className="drawer-side">
+      <label htmlFor="side-drawer" className="drawer-overlay"></label>
+      <ul className="menu p-4 w-80 min-h-full bg-base-100">
+        <NavLink href=".">Add a recipe</NavLink>
+        <NavLink href=".">Home</NavLink>
+        <NavLink href=".">Recipes</NavLink>
+        <NavLink href=".">About</NavLink>
+      </ul>
     </div>
+    <div className="drawer-content">
+      <nav className="navbar bg-base-200">
+        <div>
+          <label
+            htmlFor="side-drawer"
+            className="btn btn-ghost btn-square drawer-button btn-md p-2"
+          >
+            <RxHamburgerMenu className="w-full h-full" />
+          </label>
+        </div>
+        <div className="navbar-start">
+          <a href="." className="btn text-xl">
+            Your CookBook
+          </a>
+        </div>
+      </nav>
+      {props.children}
+    </div>
+  </div>
+);
+
+function App() {
+  return (
+    <NavWrapper>
+      <Home />
+    </NavWrapper>
   );
 }
 
