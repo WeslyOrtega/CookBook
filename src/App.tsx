@@ -2,6 +2,25 @@ import { RxHamburgerMenu } from "react-icons/rx";
 
 import Home from "./pages/home/Home";
 
+const SideDrawerLinks: Array<{ href: string; text: string }> = [
+  {
+    href: ".",
+    text: "Home",
+  },
+  {
+    href: ".",
+    text: "Explore",
+  },
+  {
+    href: ".",
+    text: "My Recipes",
+  },
+  {
+    href: ".",
+    text: "Account",
+  },
+];
+
 const NavLink = (props: { href: string; children: string }) => (
   <li>
     <a href={props.href}>{props.children}</a>
@@ -14,14 +33,15 @@ const NavWrapper = (props: { children: React.JSX.Element }) => (
     <div className="drawer-side">
       <label htmlFor="side-drawer" className="drawer-overlay"></label>
       <ul className="menu p-4 w-80 min-h-full bg-base-100">
-        <NavLink href=".">Add a recipe</NavLink>
-        <NavLink href=".">Home</NavLink>
-        <NavLink href=".">Recipes</NavLink>
-        <NavLink href=".">About</NavLink>
+        {SideDrawerLinks.map(({ href, text }, index) => (
+          <li key={index}>
+            <a href={href}>{text}</a>
+          </li>
+        ))}
       </ul>
     </div>
     <div className="drawer-content">
-      <nav className="navbar bg-base-300">
+      <nav className="navbar bg-primary">
         <div>
           <label
             htmlFor="side-drawer"
