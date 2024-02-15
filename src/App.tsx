@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="flex flex-row">
-      <nav className="flex flex-col items-center w-72 h-screen bg-primary p-7 gap-7">
+      <nav className="flex flex-col items-center w-72 h-screen p-7 gap-7">
         <h1 className="text-2xl font-semibold">CookBook</h1>
         <div className="w-full">
           <input className="w-full" type="text" placeholder="Search" />
@@ -21,7 +21,7 @@ function App() {
           <NavLink href=".">About</NavLink>
         </ul>
       </nav>
-      <article className="bg-primary-lighter w-full p-10">
+      <article className="w-full p-10">
         <Home />
       </article>
     </div>
