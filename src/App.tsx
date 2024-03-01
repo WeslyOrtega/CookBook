@@ -24,7 +24,7 @@ const SideDrawerLinks: Array<{ href: string; text: string }> = [
 const NavWrapper = (props: { children: React.JSX.Element }) => (
   <div className="drawer">
     <input id="side-drawer" className="drawer-toggle" type="checkbox" />
-    <div className="drawer-side">
+    <div className="drawer-side z-10">
       <label htmlFor="side-drawer" className="drawer-overlay"></label>
       <ul className="menu p-4 w-80 min-h-full bg-base-100">
         {SideDrawerLinks.map(({ href, text }, index) => (
