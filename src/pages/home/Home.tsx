@@ -40,10 +40,13 @@ const Home = () => {
     <div>
       <h1 className="text-3xl">Home</h1>
       <article>
-        <h2 className="text-xl mt-8 mb-2">Popular Recipes</h2>
+        <span className="flex flex-row justify-between items-baseline mt-8 mb-2">
+          <h2 className="text-xl">Popular Recipes</h2>
+          <p className="text-l link">See More</p>
+        </span>
         {/* TODO: One day make this work */}
         {/* <Carousel items={carouselItems} /> */}
-        <div className="flex flex-row flex-wrap gap-3">
+        <div className="flex flex-row justify-between flex-wrap">
           {recipes.map(({ description, title }, i) => (
             <RecipeCard title={title} description={description} />
           ))}

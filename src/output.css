@@ -2239,6 +2239,26 @@ html:has(.drawer-toggle:checked) {
   visibility: visible;
 }
 
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -2264,6 +2284,14 @@ html:has(.drawer-toggle:checked) {
   height: 100%;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
 .min-h-full {
   min-height: 100%;
 }
@@ -2278,6 +2306,14 @@ html:has(.drawer-toggle:checked) {
 
 .w-full {
   width: 100%;
+}
+
+.w-16 {
+  width: 4rem;
+}
+
+.w-32 {
+  width: 8rem;
 }
 
 .max-w-screen-xl {
