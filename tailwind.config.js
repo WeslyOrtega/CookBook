@@ -3,6 +3,6 @@ module.exports = {
   content: ["./src/**/*.{html,js,tsx}"],
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["pastel"],
+    themes: ["bumblebee"],
   },
 };
