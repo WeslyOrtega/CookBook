@@ -1,8 +1,38 @@
-import * as mock from "../../resources/mock/recipes.json";
+import { useEffect, useState } from "react";
+import mock from "../../resources/mock/recipes.json";
 
-const { recipes } = mock;
+type RecipeType = (typeof mock.recipes)[0];
+
+const RecipeCard = (props: { title: string; description: string }) => {
+  return (
+    <div className="card w-52 card-compact bg-primary shadow-md">
+      <div className="card-body">
+        <h3 className="card-title">{props.title}</h3>
+        <p>{props.description}</p>
+        <div className="card-actions justify-end">
+          <button
+            className="btn btn-neutral"
+            onClick={() => alert(props.description)}
+          >
+            Read More
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
+  const [recipes, setRecipes] = useState([] as RecipeType[]);
+
+  const addNewRecipe = (r: RecipeType) => {
+    setRecipes([...recipes, r]);
+  };
+
+  useEffect(() => {
+    setRecipes(mock.recipes);
+  }, []);
+
   return (
     <div>
       <h1 className="text-3xl">Home</h1>
@@ -12,23 +42,20 @@ const Home = () => {
         {/* <Carousel items={carouselItems} /> */}
         <div className="flex flex-row flex-wrap gap-3">
           {recipes.map(({ description, title }, i) => (
-            <div
-              className="card w-52 card-compact bg-primary shadow-md"
-              key={i}
-            >
-              <div className="card-body">
-                <h3 className="card-title">{title}</h3>
-                <p>{description}</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-neutral">Read More</button>
-                </div>
-              </div>
-            </div>
+            <RecipeCard title={title + i} description={description + i} />
           ))}
         </div>
       </article>
       <span className="divider" />
       <div>Section 2</div>
+      <button
+        className="btn btn-circle"
+        onClick={() =>
+          addNewRecipe({ title: "Card", description: "Description" })
+        }
+      >
+        Add new
+      </button>
     </div>
   );
 };
