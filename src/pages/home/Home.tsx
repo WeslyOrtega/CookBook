@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { LoremIpsum } from "lorem-ipsum";
 import mock from "../../resources/mock/recipes.json";
 
 type RecipeType = (typeof mock.recipes)[0];
+
+const lorem = new LoremIpsum();
 
 const RecipeCard = (props: { title: string; description: string }) => {
   return (
@@ -42,7 +45,7 @@ const Home = () => {
         {/* <Carousel items={carouselItems} /> */}
         <div className="flex flex-row flex-wrap gap-3">
           {recipes.map(({ description, title }, i) => (
-            <RecipeCard title={title + i} description={description + i} />
+            <RecipeCard title={title} description={description} />
           ))}
         </div>
       </article>
@@ -51,7 +54,10 @@ const Home = () => {
       <button
         className="btn btn-circle"
         onClick={() =>
-          addNewRecipe({ title: "Card", description: "Description" })
+          addNewRecipe({
+            title: lorem.generateWords(3),
+            description: lorem.generateSentences(2),
+          })
         }
       >
         Add new
