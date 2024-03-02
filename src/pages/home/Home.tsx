@@ -1,27 +1,21 @@
 import { useEffect, useState } from "react";
-import { LoremIpsum } from "lorem-ipsum";
-import mock from "../../resources/mock/recipes.json";
+import { RecipeType, getRecipe, getRecipes } from "../../utils/recipe-utils";
 
-type RecipeType = (typeof mock.recipes)[0];
+import recipe_img from "../../resources/mock/recipe.jpg";
 
-const lorem = new LoremIpsum();
-
-const RecipeCard = (props: { title: string; description: string }) => {
+const RecipeCard = (props: RecipeType & { key?: number }) => {
+  const { title } = props;
   return (
-    <div className="card w-52 card-compact bg-primary shadow-md">
-      <div className="card-body">
-        <h3 className="card-title">{props.title}</h3>
-        <p>{props.description}</p>
-        <div className="card-actions justify-end">
-          <button
-            className="btn btn-neutral"
-            onClick={() => alert(props.description)}
-          >
-            Read More
-          </button>
+    <a key={props.key} onClick={() => alert(`Clicked ${title}`)}>
+      <div className="card w-full shadow-md sm:max-w-48">
+        <figure>
+          <img src={recipe_img} alt="" />
+        </figure>
+        <div className="card-body">
+          <h3 className="card-title">{title}</h3>
         </div>
       </div>
-    </div>
+    </a>
   );
 };
 
@@ -33,7 +27,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setRecipes(mock.recipes);
+    setRecipes(getRecipes(5));
   }, []);
 
   return (
@@ -44,11 +38,9 @@ const Home = () => {
           <h2 className="text-xl">Popular Recipes</h2>
           <p className="text-l link">See More</p>
         </span>
-        {/* TODO: One day make this work */}
-        {/* <Carousel items={carouselItems} /> */}
-        <div className="flex flex-row justify-between flex-wrap">
-          {recipes.map(({ description, title }, i) => (
-            <RecipeCard title={title} description={description} />
+        <div className="flex flex-col justify-center items-center">
+          {recipes.map((recipe, i) => (
+            <RecipeCard {...recipe} key={i} />
           ))}
         </div>
       </article>
@@ -56,12 +48,7 @@ const Home = () => {
       <div>Section 2</div>
       <button
         className="btn btn-circle"
-        onClick={() =>
-          addNewRecipe({
-            title: lorem.generateWords(3),
-            description: lorem.generateSentences(2),
-          })
-        }
+        onClick={() => addNewRecipe(getRecipe())}
       >
         Add new
       </button>
