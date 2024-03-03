@@ -12,7 +12,7 @@ export function getRecipe(): RecipeType {
   return {
     title: lorem.generateWords(2),
     description: lorem.generateSentences(3),
-    tags: Array.from(Array(3)).map(() => lorem.generateWords(1)),
+    tags: Array.from(Array(2)).map(() => lorem.generateWords(1)),
   };
 }
 
