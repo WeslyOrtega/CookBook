@@ -59,7 +59,7 @@ const NavWrapper = (props: { children: React.JSX.Element }) => {
           </div>
           {/* Empty end to actually center navbar-center */}
           <div className="navbar-end">
-            <label className="btn btn-circle shadow-none swap">
+            <label className="btn btn-circle btn-ghost shadow-none swap">
               <input
                 type="checkbox"
                 value="dark"
