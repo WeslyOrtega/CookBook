@@ -1718,6 +1718,12 @@ html {
   border-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
 }
 
+.card-bordered {
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
+}
+
 .card.compact .card-body {
   padding: 1rem;
   font-size: 0.875rem;
@@ -2605,6 +2611,16 @@ html:has(.drawer-toggle:checked) {
 
 .rounded-box {
   border-radius: var(--rounded-box, 1rem);
+}
+
+.border-primary {
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity)));
+}
+
+.border-secondary {
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-s,oklch(var(--s)/var(--tw-border-opacity)));
 }
 
 .bg-base-100 {

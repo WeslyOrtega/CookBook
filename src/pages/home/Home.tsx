@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { RecipeType, getRecipe, getRecipes } from "../../utils/recipe-utils";
 
-import recipe_img from "../../resources/mock/recipe.jpg";
-
 const RecipeCard = (props: RecipeType) => {
-  const { title, tags } = props;
+  const { title, img_url } = props;
   return (
     <a
       className="card card-compact shadow-md w-5/6 sm:w-full"
@@ -12,16 +10,9 @@ const RecipeCard = (props: RecipeType) => {
       onClick={() => alert(`Clicked ${title}`)}
     >
       <figure>
-        <img src={recipe_img} alt="" />
+        <img src={require(`../../resources/mock/${img_url}`)} alt="" />
       </figure>
       <div className="card-body">
-        <div className="join self-center">
-          {tags.map((it, i) => (
-            <div key={i} className="join-item badge badge-primary">
-              {it}
-            </div>
-          ))}
-        </div>
         <h3 className="inline-block card-title overflow-hidden whitespace-nowrap text-ellipsis">
           {title}
         </h3>
