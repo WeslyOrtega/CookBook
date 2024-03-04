@@ -3,11 +3,28 @@ import { getRecipe } from "../../utils/recipe-utils";
 
 const RecipeInfo = () => {
   // const { id } = useParams();
-  const { name, img_url, description, ingredients, instructions } = getRecipe();
+  const {
+    name,
+    img_url,
+    description,
+    ingredients,
+    instructions,
+    author_name,
+    upload_date,
+  } = getRecipe();
 
   return (
     <div className="flex flex-col gap-6 sm:pl-8 sm:pr-8">
       <h1 className="text-3xl font-semibold">{name}</h1>
+      <p className="flex flex-row gap-1">
+        <div>
+          Authored by {/* TODO: Profile Screen */}
+          <a href="/" className="font-medium text-primary hover:underline">
+            {author_name}
+          </a>
+        </div>
+        <div className="italic font-light">| {upload_date}</div>
+      </p>
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <img
           className="sm:max-h-96 rounded-3xl"
