@@ -2387,6 +2387,10 @@ html:has(.drawer-toggle:checked) {
   background-color: var(--fallback-p,oklch(var(--p)/var(--tw-bg-opacity)));
 }
 
+.bg-inherit {
+  background-color: inherit;
+}
+
 .fill-current {
   fill: currentColor;
 }

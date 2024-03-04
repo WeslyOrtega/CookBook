@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 const SideDrawerLinks: Array<{ href: string; text: string }> = [
   {
-    href: ".",
+    href: "/",
     text: "Home",
   },
   {
