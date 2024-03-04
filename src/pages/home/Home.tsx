@@ -2,19 +2,18 @@ import { useEffect, useState } from "react";
 import { RecipeType, getRecipe, getRecipes } from "../../utils/recipe-utils";
 
 const RecipeCard = (props: RecipeType) => {
-  const { title, img_url } = props;
+  const { id, name, img_url } = props;
   return (
     <a
       className="card card-compact shadow-md w-5/6 sm:w-full"
-      href="."
-      onClick={() => alert(`Clicked ${title}`)}
+      href={`/recipe/${id}`}
     >
       <figure>
         <img src={require(`../../resources/mock/${img_url}`)} alt="" />
       </figure>
       <div className="card-body">
         <h3 className="inline-block card-title overflow-hidden whitespace-nowrap text-ellipsis">
-          {title}
+          {name}
         </h3>
       </div>
     </a>
