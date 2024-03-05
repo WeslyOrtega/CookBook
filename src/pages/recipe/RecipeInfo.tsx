@@ -1,28 +1,29 @@
 // import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import firestore from "../../data/firestore";
-import { getRecipe } from "../../utils/recipe-utils";
-import { collection, getDocs } from "@firebase/firestore";
+import { Timestamp, collection, getDocs } from "@firebase/firestore";
 
 const RecipeInfo = () => {
   // const { id } = useParams();
-  const {
-    name,
-    img_url,
-    description,
-    ingredients,
-    instructions,
-    author_name,
-    upload_date,
-  } = getRecipe();
+  const [name, setName] = useState("");
+  const [img_url, setImgUrl] = useState("");
+  const [description, setDescription] = useState("");
+  const [ingredients, setIngredients] = useState([] as string[]);
+  const [instructions, setInstructions] = useState([] as string[]);
+  const [author, setAuthor] = useState("");
+  const [upload_date, setUploadDate] = useState(new Timestamp(0, 0));
 
   useEffect(() => {
-    (async function f() {
-      const something = await getDocs(collection(firestore, "recipes"));
-      something.forEach((element) => {
-        console.log(element.data());
-      });
-    })();
+    getDocs(collection(firestore, "recipes")).then((r) => {
+      const data = r.docs.at(0)?.data();
+      setName(data?.name ?? "");
+      setImgUrl(data?.img_url ?? "");
+      setDescription(data?.description ?? "");
+      setIngredients(data?.ingredients ?? []);
+      setInstructions(data?.instructions ?? []);
+      setAuthor(data?.owner ?? "");
+      setUploadDate(data?.creation_date ?? "");
+    });
   }, []);
 
   return (
@@ -32,15 +33,17 @@ const RecipeInfo = () => {
         <div>
           Authored by {/* TODO: Profile Screen */}
           <a href="/" className="font-medium text-primary hover:underline">
-            {author_name}
+            {author}
           </a>
         </div>
-        <div className="italic font-light">| {upload_date}</div>
+        <div className="italic font-light">
+          | {upload_date.toDate().toDateString()}
+        </div>
       </span>
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <img
           className="sm:max-h-96 rounded-3xl"
-          src={require(`../../resources/mock/${img_url}`)}
+          src={require(`../../resources/mock/${"recipe3.jpg"}`)}
           alt="Picute of recipe"
         />
         <p className="sm:max-w-xl">{description}</p>
