@@ -1,5 +1,8 @@
 // import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import firestore from "../../data/firestore";
 import { getRecipe } from "../../utils/recipe-utils";
+import { collection, getDocs } from "@firebase/firestore";
 
 const RecipeInfo = () => {
   // const { id } = useParams();
@@ -13,10 +16,19 @@ const RecipeInfo = () => {
     upload_date,
   } = getRecipe();
 
+  useEffect(() => {
+    (async function f() {
+      const something = await getDocs(collection(firestore, "recipes"));
+      something.forEach((element) => {
+        console.log(element.data());
+      });
+    })();
+  }, []);
+
   return (
     <div className="flex flex-col gap-6 sm:pl-8 sm:pr-8">
       <h1 className="text-3xl font-semibold">{name}</h1>
-      <p className="flex flex-row gap-1">
+      <span className="flex flex-row gap-1">
         <div>
           Authored by {/* TODO: Profile Screen */}
           <a href="/" className="font-medium text-primary hover:underline">
@@ -24,7 +36,7 @@ const RecipeInfo = () => {
           </a>
         </div>
         <div className="italic font-light">| {upload_date}</div>
-      </p>
+      </span>
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <img
           className="sm:max-h-96 rounded-3xl"
