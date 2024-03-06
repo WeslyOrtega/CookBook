@@ -64,8 +64,8 @@ export default function ContentWrapper() {
                 value="dark"
                 className="theme-controller"
               />
-              <RxSun className="swap-off fill-current size-6" />
-              <RxMoon className="swap-on fill-current size-6" />
+              <RxSun className="swap-on fill-current size-6" />
+              <RxMoon className="swap-off fill-current size-6" />
             </label>
           </div>
         </nav>
