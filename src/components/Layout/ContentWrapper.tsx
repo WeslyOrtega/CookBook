@@ -53,11 +53,10 @@ export default function ContentWrapper() {
           </div>
           <div className="navbar-start"></div>
           <div className="navbar-center">
-            <a href="." className="btn no-animation btn-ghost text-xl">
+            <a href="/" className="btn no-animation btn-ghost text-xl">
               Your CookBook
             </a>
           </div>
-          {/* Empty end to actually center navbar-center */}
           <div className="navbar-end">
             <label className="btn btn-circle btn-ghost shadow-none swap">
               <input
