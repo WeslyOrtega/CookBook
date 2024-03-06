@@ -1,8 +1,8 @@
 // import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Timestamp, getDocs } from "@firebase/firestore";
-import { recipesDB, getRecipe, getRecipeImage } from "../../data/firebase";
+import { Timestamp } from "@firebase/firestore";
+import { getRecipe, getRecipeImage } from "../../data/firebase";
 import { RecipeType } from "../../utils/recipe-utils";
 
 const RecipeInfo = () => {
@@ -16,7 +16,7 @@ const RecipeInfo = () => {
   const [upload_date, setUploadDate] = useState(new Timestamp(0, 0));
 
   useEffect(() => {
-    if (id == undefined) return;
+    if (id === undefined) return;
 
     getRecipe(id).then((doc) => {
       // TODO: Handle resource not found
@@ -30,7 +30,7 @@ const RecipeInfo = () => {
       setUploadDate(data?.creation_date);
       getRecipeImage(data?.img_url).then((it) => setImgUrl(it));
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col gap-6 sm:pl-8 sm:pr-8">

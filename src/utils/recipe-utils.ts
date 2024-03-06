@@ -36,7 +36,3 @@ export function getRecipe(): RecipeType {
     creation_date: Timestamp.now(),
   };
 }
-
-export function getRecipes(n: number): RecipeType[] {
-  return Array.from(Array(n)).map(() => getRecipe());
-}
