@@ -1,10 +1,12 @@
 // import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Timestamp, getDocs } from "@firebase/firestore";
-import { recipesDB, getRecipeImage } from "../../data/firebase";
+import { recipesDB, getRecipe, getRecipeImage } from "../../data/firebase";
+import { RecipeType } from "../../utils/recipe-utils";
 
 const RecipeInfo = () => {
-  // const { id } = useParams();
+  const { id } = useParams();
   const [name, setName] = useState("");
   const [img_url, setImgUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -14,15 +16,19 @@ const RecipeInfo = () => {
   const [upload_date, setUploadDate] = useState(new Timestamp(0, 0));
 
   useEffect(() => {
-    getDocs(recipesDB).then((r) => {
-      const data = r.docs.at(0)?.data();
-      setName(data?.name ?? "");
-      setDescription(data?.description ?? "");
-      setIngredients(data?.ingredients ?? []);
-      setInstructions(data?.instructions ?? []);
-      setAuthor(data?.owner ?? "");
-      setUploadDate(data?.creation_date ?? "");
-      getRecipeImage(data?.img_url ?? "").then((it) => setImgUrl(it));
+    if (id == undefined) return;
+
+    getRecipe(id).then((doc) => {
+      // TODO: Handle resource not found
+      if (!doc.exists()) return;
+      const data = doc?.data() as RecipeType;
+      setName(data?.name);
+      setDescription(data?.description);
+      setIngredients(data?.ingredients);
+      setInstructions(data?.instructions);
+      setAuthor(data?.owner);
+      setUploadDate(data?.creation_date);
+      getRecipeImage(data?.img_url).then((it) => setImgUrl(it));
     });
   }, []);
 

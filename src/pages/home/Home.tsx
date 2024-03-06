@@ -1,15 +1,27 @@
 import { useEffect, useState } from "react";
-import { RecipeType, getRecipe, getRecipes } from "../../utils/recipe-utils";
+import { getDocs } from "firebase/firestore";
+import { getRecipeImage, recipesDB } from "../../data/firebase";
+import { RecipeType, getRecipe } from "../../utils/recipe-utils";
 
 const RecipeCard = (props: RecipeType) => {
   const { id, name, img_url } = props;
+  const [img, setImg] = useState("");
+
+  console.log(id);
+
+  useEffect(() => {
+    getRecipeImage(img_url).then((it) => {
+      setImg(it);
+    });
+  }, [img_url]);
+
   return (
     <a
       className="card card-compact shadow-md w-5/6 sm:w-full"
       href={`/recipe/${id}`}
     >
       <figure>
-        <img src={require(`../../resources/mock/${img_url}`)} alt="" />
+        <img src={img} alt="" />
       </figure>
       <div className="card-body">
         <h3 className="inline-block card-title overflow-hidden whitespace-nowrap text-ellipsis">
@@ -28,7 +40,14 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setRecipes(getRecipes(6));
+    getDocs(recipesDB).then((r) => {
+      const docs = r.docs;
+      const recipes = docs.map((it) => {
+        return { ...it.data(), id: it.id } as RecipeType;
+      });
+      console.log({ recipes });
+      setRecipes(recipes);
+    });
   }, []);
 
   return (

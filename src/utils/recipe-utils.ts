@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { LoremIpsum } from "lorem-ipsum";
 
 const recipeImages = ["recipe1.jpg", "recipe2.jpg", "recipe3.jpg"];
@@ -12,9 +13,8 @@ export type RecipeType = {
   img_url: string;
   ingredients: string[];
   instructions: string[];
-  author_name: string;
-  author_email: string;
-  upload_date: string;
+  owner: string;
+  creation_date: Timestamp;
 };
 
 export function getRecipe(): RecipeType {
@@ -32,9 +32,8 @@ export function getRecipe(): RecipeType {
     instructions: Array.from(Array(10)).map(
       () => `${lorem.generateParagraphs(1)}`
     ),
-    author_name: [authorName, authorLastname].join(" "),
-    author_email: `${[authorName, authorLastname].join("_")}@gmail.com`,
-    upload_date: "March 3, 2024",
+    owner: [authorName, authorLastname].join(" "),
+    creation_date: Timestamp.now(),
   };
 }
 
