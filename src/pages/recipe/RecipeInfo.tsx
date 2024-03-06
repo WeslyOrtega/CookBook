@@ -1,7 +1,7 @@
 // import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import firestore from "../../data/firestore";
 import { Timestamp, collection, getDocs } from "@firebase/firestore";
+import { firestore, getRecipeImage } from "../../data/firebase";
 
 const RecipeInfo = () => {
   // const { id } = useParams();
@@ -17,12 +17,12 @@ const RecipeInfo = () => {
     getDocs(collection(firestore, "recipes")).then((r) => {
       const data = r.docs.at(0)?.data();
       setName(data?.name ?? "");
-      setImgUrl(data?.img_url ?? "");
       setDescription(data?.description ?? "");
       setIngredients(data?.ingredients ?? []);
       setInstructions(data?.instructions ?? []);
       setAuthor(data?.owner ?? "");
       setUploadDate(data?.creation_date ?? "");
+      getRecipeImage(data?.img_url ?? "").then((it) => setImgUrl(it));
     });
   }, []);
 
@@ -43,7 +43,7 @@ const RecipeInfo = () => {
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <img
           className="sm:max-h-96 rounded-3xl"
-          src={require(`../../resources/mock/${"recipe3.jpg"}`)}
+          src={img_url}
           alt="Picute of recipe"
         />
         <p className="sm:max-w-xl">{description}</p>
