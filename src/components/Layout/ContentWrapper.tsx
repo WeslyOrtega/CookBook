@@ -1,4 +1,12 @@
 import { RxHamburgerMenu, RxSun, RxMoon } from "react-icons/rx";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
@@ -30,6 +38,19 @@ export default function ContentWrapper() {
 
   return (
     <div className="drawer">
+      <Card>
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
+
       <input id="side-drawer" className="drawer-toggle" type="checkbox" />
       <div className="drawer-side z-10">
         <label htmlFor="side-drawer" className="drawer-overlay"></label>
