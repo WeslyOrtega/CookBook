@@ -9,6 +9,8 @@ import ContentWrapper from "./components/Layout/ContentWrapper";
 import RecipeInfo from "./pages/recipe/RecipeInfo";
 import RecipeEnter from "./pages/recipe/RecipeEnter";
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<ContentWrapper />}>
@@ -22,7 +24,12 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
+  // return <RouterProvider router={router} />;
 }
 
 export default App;
