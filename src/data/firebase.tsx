@@ -1,12 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import firebase_config from "../resources/firebase/firebase_config.json";
 
 const app = initializeApp(firebase_config);
 
-export const firestore = getFirestore(app);
+const firestore = getFirestore(app);
+export const recipesDB = collection(firestore, "recipes");
 
 const storage = getStorage(app);
 const recipeImagesStorage = ref(storage, "recipe_pictures");

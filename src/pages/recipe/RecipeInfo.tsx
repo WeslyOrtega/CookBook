@@ -1,7 +1,7 @@
 // import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Timestamp, collection, getDocs } from "@firebase/firestore";
-import { firestore, getRecipeImage } from "../../data/firebase";
+import { Timestamp, getDocs } from "@firebase/firestore";
+import { recipesDB, getRecipeImage } from "../../data/firebase";
 
 const RecipeInfo = () => {
   // const { id } = useParams();
@@ -14,7 +14,7 @@ const RecipeInfo = () => {
   const [upload_date, setUploadDate] = useState(new Timestamp(0, 0));
 
   useEffect(() => {
-    getDocs(collection(firestore, "recipes")).then((r) => {
+    getDocs(recipesDB).then((r) => {
       const data = r.docs.at(0)?.data();
       setName(data?.name ?? "");
       setDescription(data?.description ?? "");
