@@ -1,12 +1,4 @@
 import { RxHamburgerMenu, RxSun, RxMoon } from "react-icons/rx";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +9,6 @@ import {
 } from "@/components/ui/tooltip";
 import { useTheme } from "@/components/theme-provider";
 
-import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 const SideDrawerLinks: Array<{ href: string; text: string }> = [
