@@ -2,27 +2,20 @@ import { useEffect, useState } from "react";
 import { getDocs } from "firebase/firestore";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { RxLinkBreak1 } from "react-icons/rx";
+
 import { getRecipeImage, recipesDB } from "../../data/firebase";
 import { RecipeType, getRecipe } from "../../utils/recipe-utils";
+import FirebaseImg from "@/src/components/Image/FirebaseImage";
 
 const RecipeCard = (props: RecipeType) => {
   const { id, name, img_url } = props;
-  const [img, setImg] = useState("");
-
-  console.log(id);
-
-  useEffect(() => {
-    getRecipeImage(img_url).then((it) => {
-      setImg(it);
-    });
-  }, [img_url]);
 
   return (
     <a className="w-5/6 sm:w-full h-full" href={`/recipe/${id}`}>
       <Card className="overflow-hidden h-full flex flex-col justify-end">
-        <figure className="w-full flex-grow">
-          <img src={img} alt="Picture of recipe" />
-        </figure>
+        <FirebaseImg img_url={img_url} className="w-full flex-grow" />
         <CardHeader>
           <CardTitle className="inline-block card-title overflow-hidden whitespace-nowrap text-ellipsis">
             {name}
