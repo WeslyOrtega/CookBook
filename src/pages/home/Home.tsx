@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
 import { getDocs } from "firebase/firestore";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRecipeImage, recipesDB } from "../../data/firebase";
 import { RecipeType, getRecipe } from "../../utils/recipe-utils";
+import { Button } from "@/components/ui/button";
 
 const RecipeCard = (props: RecipeType) => {
   const { id, name, img_url } = props;
@@ -62,8 +56,7 @@ const Home = () => {
       <h1 className="text-3xl">Home</h1>
       <article>
         <span className="flex flex-row justify-between items-baseline mt-8 mb-3">
-          <h2 className="text-xl">Popular Recipes</h2>
-          <p className="text-l link">See More</p>
+          <h2 className="text-xl">Your Recipes</h2>
         </span>
         <section className="flex flex-col justify-center items-center gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {recipes.map((recipe, i) => (
@@ -71,14 +64,7 @@ const Home = () => {
           ))}
         </section>
       </article>
-      <span className="divider" />
-      <div>Section 2</div>
-      <button
-        className="btn btn-circle"
-        onClick={() => addNewRecipe(getRecipe())}
-      >
-        Add new
-      </button>
+      <Button onClick={() => addNewRecipe(getRecipe())}>Add new</Button>
     </div>
   );
 };
