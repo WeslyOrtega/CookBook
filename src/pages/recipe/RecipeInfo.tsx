@@ -48,7 +48,7 @@ const RecipeInfo = () => {
       </span>
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <img
-          className="sm:max-h-96 rounded-3xl"
+          className="max-h-96 max-w-96 rounded-3xl"
           src={img_url}
           alt="Picute of recipe"
         />
