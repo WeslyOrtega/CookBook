@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import { getDocs } from "firebase/firestore";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { getRecipeImage, recipesDB } from "../../data/firebase";
 import { RecipeType, getRecipe } from "../../utils/recipe-utils";
 
@@ -16,18 +24,17 @@ const RecipeCard = (props: RecipeType) => {
   }, [img_url]);
 
   return (
-    <a
-      className="card card-compact shadow-md w-5/6 sm:w-full"
-      href={`/recipe/${id}`}
-    >
-      <figure>
-        <img src={img} alt="" />
-      </figure>
-      <div className="card-body">
-        <h3 className="inline-block card-title overflow-hidden whitespace-nowrap text-ellipsis">
-          {name}
-        </h3>
-      </div>
+    <a className="w-5/6 sm:w-full h-full" href={`/recipe/${id}`}>
+      <Card className="overflow-hidden h-full">
+        <figure>
+          <img src={img} alt="Picture of recipe" className="bg-cover" />
+        </figure>
+        <CardHeader>
+          <CardTitle className="inline-block card-title overflow-hidden whitespace-nowrap text-ellipsis">
+            {name}
+          </CardTitle>
+        </CardHeader>
+      </Card>
     </a>
   );
 };

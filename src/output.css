@@ -933,6 +933,10 @@ body {
   background-color: transparent;
 }
 
+.bg-cover {
+  background-size: cover;
+}
+
 .p-3 {
   padding: 0.75rem;
 }
