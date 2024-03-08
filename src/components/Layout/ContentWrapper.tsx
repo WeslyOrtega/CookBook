@@ -7,9 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useTheme } from "@/components/theme-provider";
 
 import { useEffect } from "react";
-import { themeChange } from "theme-change";
 import { Outlet } from "react-router-dom";
 
 const SideDrawerLinks: Array<{ href: string; text: string }> = [
@@ -32,70 +40,71 @@ const SideDrawerLinks: Array<{ href: string; text: string }> = [
 ];
 
 export default function ContentWrapper() {
-  useEffect(() => {
-    themeChange(false);
-  }, []);
+  const { theme, setTheme } = useTheme();
 
   return (
-    <div className="drawer">
-      <Card>
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
-      </Card>
-
-      <input id="side-drawer" className="drawer-toggle" type="checkbox" />
-      <div className="drawer-side z-10">
-        <label htmlFor="side-drawer" className="drawer-overlay"></label>
-        <ul className="menu p-4 w-80 min-h-full bg-base-100">
+    <Sheet>
+      <nav className="flex flex-row align-middle min-h-fit h-10 items-center">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="h-full">
+              <SheetTrigger asChild>
+                <Button variant="ghost" className="h-full">
+                  <RxHamburgerMenu className="w-full h-full" />
+                </Button>
+              </SheetTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Open sidebar</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <div className="w-full flex flex-col items-center">
+          <a href="/" className="btn no-animation btn-ghost text-xl">
+            Your CookBook
+          </a>
+        </div>
+        <div className="flex flex-row">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button variant="ghost">
+                  {theme == "dark" && (
+                    <RxSun
+                      onClick={() => setTheme("light")}
+                      className="size-6"
+                    />
+                  )}
+                  {theme == "light" && (
+                    <RxMoon
+                      onClick={() => setTheme("dark")}
+                      className="size-6"
+                    />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                {theme == "light" && <p>Switch to dark mode</p>}
+                {theme == "dark" && <p>Switch to light mode</p>}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      </nav>
+      <main className="p-5 flex flex-col items-center">
+        <div className="max-w-screen-xl w-full">
+          <Outlet />
+        </div>
+      </main>
+      <SheetContent side="left">
+        <ul className="menu p-4 w-80 bg-base-100">
           {SideDrawerLinks.map(({ href, text }, index) => (
             <li key={index}>
               <a href={href}>{text}</a>
             </li>
           ))}
         </ul>
-      </div>
-      <div className="drawer-content">
-        <nav className="navbar bg-base-200">
-          <div>
-            <label
-              className="btn btn-ghost btn-square drawer-button btn-md p-2"
-              onClick={() => document.getElementById("side-drawer")?.click()}
-            >
-              <RxHamburgerMenu className="w-full h-full" />
-            </label>
-          </div>
-          <div className="navbar-start"></div>
-          <div className="navbar-center">
-            <a href="/" className="btn no-animation btn-ghost text-xl">
-              Your CookBook
-            </a>
-          </div>
-          <div className="navbar-end">
-            <label className="btn btn-circle btn-ghost shadow-none swap">
-              <input
-                type="checkbox"
-                value="dark"
-                className="theme-controller"
-              />
-              <RxSun className="swap-on fill-current size-6" />
-              <RxMoon className="swap-off fill-current size-6" />
-            </label>
-          </div>
-        </nav>
-        <main className="p-5 flex flex-col items-center">
-          <div className="max-w-screen-xl w-full">
-            <Outlet />
-          </div>
-        </main>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 }
