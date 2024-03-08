@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { getDocs } from "firebase/firestore";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { RxLinkBreak1 } from "react-icons/rx";
 
-import { getRecipeImage, recipesDB } from "../../data/firebase";
+import { recipesDB } from "../../data/firebase";
 import { RecipeType, getRecipe } from "../../utils/recipe-utils";
 import FirebaseImg from "@/src/components/Image/FirebaseImage";
 
