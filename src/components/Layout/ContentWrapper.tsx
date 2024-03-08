@@ -40,7 +40,7 @@ export default function ContentWrapper() {
           <Tooltip>
             <TooltipTrigger className="h-full">
               <SheetTrigger asChild>
-                <Button variant="ghost" className="h-full">
+                <Button variant="ghost" className="h-full px-2">
                   <RxHamburgerMenu className="w-full h-full" />
                 </Button>
               </SheetTrigger>
