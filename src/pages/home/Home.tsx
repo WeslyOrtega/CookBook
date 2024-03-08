@@ -4,8 +4,15 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import { recipesDB } from "../../data/firebase";
-import { RecipeType, getRecipe } from "../../utils/recipe-utils";
+import { RecipeType } from "../../utils/recipe-utils";
 import FirebaseImg from "@/src/components/Image/FirebaseImage";
+import { RxPlus } from "react-icons/rx";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const RecipeCard = (props: RecipeType) => {
   const { id, name, img_url } = props;
@@ -26,10 +33,6 @@ const RecipeCard = (props: RecipeType) => {
 
 const Home = () => {
   const [recipes, setRecipes] = useState([] as RecipeType[]);
-
-  const addNewRecipe = (r: RecipeType) => {
-    setRecipes([...recipes, r]);
-  };
 
   useEffect(() => {
     getDocs(recipesDB).then((r) => {
@@ -55,7 +58,18 @@ const Home = () => {
           ))}
         </section>
       </article>
-      <Button onClick={() => addNewRecipe(getRecipe())}>Add new</Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger className="fixed bottom-6 right-6">
+            <a href="/recipe/new">
+              <Button className="px-2 rounded-full h-12">
+                <RxPlus className="w-full h-full" />
+              </Button>
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>Add a new recipe</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };
