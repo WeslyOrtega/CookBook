@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useRef, useState } from "react";
-import { RxCamera } from "react-icons/rx";
+import { RxCamera, RxTrash } from "react-icons/rx";
 
 const NAME_INPUT_ID = "recipe-name-input";
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
@@ -18,6 +18,23 @@ const RecipeEnter = () => {
 
   const handleNameInput = (newVal: string) => {
     setName(newVal.replace(/[^a-zA-Z\s]/, ""));
+  };
+
+  const handleIngredientInput = (newVal: string, row: number) => {
+    setIngredients(
+      ingredients.map((it, i) => {
+        if (i === row) return newVal;
+        return it;
+      })
+    );
+  };
+
+  const handleIngredientDeletion = (row: number) => {
+    const updatedIngredients = [...ingredients.filter((_, i) => i !== row)];
+    if (updatedIngredients.length === 0) {
+      updatedIngredients.push("");
+    }
+    setIngredients(updatedIngredients);
   };
 
   return (
@@ -65,7 +82,22 @@ const RecipeEnter = () => {
           {ingredients.map((it, i) => (
             <li key={`ingredient ${i}`} className="flex flex-col gap-2">
               <Label>Ingredient {i + 1}</Label>
-              <Input maxLength={30} placeholder="Eg. 1 Chicken Breast" />
+              <div className="flex flex-row gap-4">
+                <Input
+                  maxLength={30}
+                  placeholder="Eg. 1 Chicken Breast"
+                  value={it}
+                  onInput={(e) =>
+                    handleIngredientInput(e.currentTarget.value, i)
+                  }
+                />
+                <Button variant="destructive" className="py-1 px-2">
+                  <RxTrash
+                    className="w-full h-full"
+                    onClick={() => handleIngredientDeletion(i)}
+                  />
+                </Button>
+              </div>
             </li>
           ))}
         </ul>
@@ -73,7 +105,7 @@ const RecipeEnter = () => {
           variant="secondary"
           onClick={() => setIngredients([...ingredients, ""])}
         >
-          Add ingredient
+          Add
         </Button>
       </div>
     </div>
