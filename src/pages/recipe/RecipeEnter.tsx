@@ -11,6 +11,7 @@ const DESCRIPTION_INPUT_ID = "recipe-description-input";
 
 const RecipeEnter = () => {
   const [name, setName] = useState("");
+  const [img, setImg] = useState("");
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
@@ -19,6 +20,14 @@ const RecipeEnter = () => {
 
   const handleNameInput = (newVal: string) => {
     setName(newVal.replace(/[^a-zA-Z\s]/, ""));
+  };
+
+  const handleImgUpload = () => {
+    // Show modal + crop image
+    const file = filePickerInput.current?.files?.item(0);
+    if (file) {
+      setImg(URL.createObjectURL(file));
+    }
   };
 
   const handleIngredientInput = (newVal: string, row: number) => {
@@ -31,11 +40,11 @@ const RecipeEnter = () => {
   };
 
   const handleIngredientDeletion = (row: number) => {
-    const updatedIngredients = [...instructions.filter((_, i) => i !== row)];
+    const updatedIngredients = [...ingredients.filter((_, i) => i !== row)];
     if (updatedIngredients.length === 0) {
       updatedIngredients.push("");
     }
-    setInstructions(updatedIngredients);
+    setIngredients(updatedIngredients);
   };
 
   const handleInstructionInput = (newVal: string, row: number) => {
@@ -48,11 +57,11 @@ const RecipeEnter = () => {
   };
 
   const handleInstructionDeletion = (row: number) => {
-    const updatedIngredients = [...ingredients.filter((_, i) => i !== row)];
+    const updatedIngredients = [...instructions.filter((_, i) => i !== row)];
     if (updatedIngredients.length === 0) {
       updatedIngredients.push("");
     }
-    setIngredients(updatedIngredients);
+    setInstructions(updatedIngredients);
   };
 
   return (
@@ -70,17 +79,25 @@ const RecipeEnter = () => {
           }}
         />
       </div>
-      <Input type="file" ref={filePickerInput} className="hidden" />
-      {/* TODO: Actually pick file */}
-      <div className="sm:w-[350px]">
+      <Input
+        type="file"
+        ref={filePickerInput}
+        className="hidden"
+        accept="image/jpeg, image/png, image/jpg"
+        onChange={() => handleImgUpload()}
+      />
+      <div className="sm:w-[350px] rounded-2xl overflow-hidden">
         <AspectRatio ratio={1}>
-          <Button
-            className="w-full h-full p-28"
-            variant="outline"
-            onClick={() => filePickerInput.current?.click()}
-          >
-            <RxCamera className="h-full w-full" />
-          </Button>
+          {img === "" && (
+            <Button
+              className="w-full h-full p-28"
+              variant="outline"
+              onClick={() => filePickerInput.current?.click()}
+            >
+              <RxCamera className="h-full w-full" />
+            </Button>
+          )}
+          {img !== "" && <img src={img} className="w-full h-full" />}
         </AspectRatio>
       </div>
       <div>
@@ -157,6 +174,12 @@ const RecipeEnter = () => {
           onClick={() => setInstructions([...instructions, ""])}
         >
           Add
+        </Button>
+      </div>
+      <div className="flex flex-row gap-2">
+        <Button className="w-full">Save</Button>
+        <Button className="w-full" variant="destructive">
+          Cancel
         </Button>
       </div>
     </div>
