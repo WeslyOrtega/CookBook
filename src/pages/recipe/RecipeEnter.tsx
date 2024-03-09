@@ -13,6 +13,7 @@ const RecipeEnter = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState([""]);
+  const [instructions, setInstructions] = useState([""]);
 
   const filePickerInput = useRef<HTMLInputElement>(null);
 
@@ -30,6 +31,23 @@ const RecipeEnter = () => {
   };
 
   const handleIngredientDeletion = (row: number) => {
+    const updatedIngredients = [...instructions.filter((_, i) => i !== row)];
+    if (updatedIngredients.length === 0) {
+      updatedIngredients.push("");
+    }
+    setInstructions(updatedIngredients);
+  };
+
+  const handleInstructionInput = (newVal: string, row: number) => {
+    setInstructions(
+      instructions.map((it, i) => {
+        if (i === row) return newVal;
+        return it;
+      })
+    );
+  };
+
+  const handleInstructionDeletion = (row: number) => {
     const updatedIngredients = [...ingredients.filter((_, i) => i !== row)];
     if (updatedIngredients.length === 0) {
       updatedIngredients.push("");
@@ -71,7 +89,7 @@ const RecipeEnter = () => {
           id={DESCRIPTION_INPUT_ID}
           placeholder="Eg. Very taste and easy to make"
           maxLength={500}
-          expand
+          autoExpand
           value={description}
           onInput={(e) => setDescription(e.currentTarget.value)}
         />
@@ -104,6 +122,39 @@ const RecipeEnter = () => {
         <Button
           variant="secondary"
           onClick={() => setIngredients([...ingredients, ""])}
+        >
+          Add
+        </Button>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h2>Instructions</h2>
+        <ul className="flex flex-col gap-2">
+          {instructions.map((it, i) => (
+            <li key={`ingredient ${i}`} className="flex flex-col gap-2">
+              <Label>Step {i + 1}</Label>
+              <div className="flex flex-row gap-4">
+                <Textarea
+                  maxLength={500}
+                  placeholder="Eg. Roast Chicken"
+                  value={it}
+                  autoExpand
+                  onInput={(e) =>
+                    handleInstructionInput(e.currentTarget.value, i)
+                  }
+                />
+                <Button variant="destructive" className="py-1 px-2">
+                  <RxTrash
+                    className="w-full h-full"
+                    onClick={() => handleInstructionDeletion(i)}
+                  />
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <Button
+          variant="secondary"
+          onClick={() => setInstructions([...instructions, ""])}
         >
           Add
         </Button>

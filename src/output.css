@@ -834,6 +834,10 @@ body {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+.resize-none {
+  resize: none;
+}
+
 .resize-y {
   resize: vertical;
 }
@@ -934,6 +938,10 @@ body {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
 }
 
 .text-ellipsis {
