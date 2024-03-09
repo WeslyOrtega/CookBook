@@ -635,8 +635,8 @@ body {
   bottom: 0px;
 }
 
-.bottom-4 {
-  bottom: 1rem;
+.bottom-6 {
+  bottom: 1.5rem;
 }
 
 .left-0 {
@@ -651,28 +651,16 @@ body {
   right: 1rem;
 }
 
+.right-6 {
+  right: 1.5rem;
+}
+
 .top-0 {
   top: 0px;
 }
 
 .top-4 {
   top: 1rem;
-}
-
-.bottom-8 {
-  bottom: 2rem;
-}
-
-.right-8 {
-  right: 2rem;
-}
-
-.bottom-6 {
-  bottom: 1.5rem;
-}
-
-.right-6 {
-  right: 1.5rem;
 }
 
 .z-50 {
@@ -708,6 +696,10 @@ body {
   height: 2.5rem;
 }
 
+.h-12 {
+  height: 3rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -724,18 +716,6 @@ body {
   height: 100%;
 }
 
-.h-20 {
-  height: 5rem;
-}
-
-.h-14 {
-  height: 3.5rem;
-}
-
-.h-12 {
-  height: 3rem;
-}
-
 .max-h-96 {
   max-height: 24rem;
 }
@@ -744,10 +724,6 @@ body {
   min-height: -webkit-fit-content;
   min-height: -moz-fit-content;
   min-height: fit-content;
-}
-
-.min-h-\[500px\] {
-  min-height: 500px;
 }
 
 .w-3\/4 {

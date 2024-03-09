@@ -38,7 +38,7 @@ export default function ContentWrapper() {
       <nav className="flex flex-row align-middle min-h-fit h-10 items-center">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger className="h-full">
+            <TooltipTrigger asChild className="h-full">
               <SheetTrigger asChild>
                 <Button variant="ghost" className="h-full px-2">
                   <RxHamburgerMenu className="w-full h-full" />
@@ -58,7 +58,7 @@ export default function ContentWrapper() {
         <div className="flex flex-row">
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Button variant="ghost">
                   {theme == "dark" && (
                     <RxSun

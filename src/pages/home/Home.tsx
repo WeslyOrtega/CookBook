@@ -40,7 +40,6 @@ const Home = () => {
       const recipes = docs.map((it) => {
         return { ...it.data(), id: it.id } as RecipeType;
       });
-      console.log({ recipes });
       setRecipes(recipes);
     });
   }, []);
@@ -60,7 +59,7 @@ const Home = () => {
       </article>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger className="fixed bottom-6 right-6">
+          <TooltipTrigger asChild className="fixed bottom-6 right-6">
             <a href="/recipe/new">
               <Button className="px-2 rounded-full h-12">
                 <RxPlus className="w-full h-full" />
