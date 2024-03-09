@@ -12,6 +12,7 @@ const DESCRIPTION_INPUT_ID = "recipe-description-input";
 const RecipeEnter = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [ingredients, setIngredients] = useState([""]);
 
   const filePickerInput = useRef<HTMLInputElement>(null);
 
@@ -21,7 +22,7 @@ const RecipeEnter = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <span>
+      <div>
         <Label htmlFor={NAME_INPUT_ID}>Recipe Name</Label>
         <Input
           id={NAME_INPUT_ID}
@@ -33,7 +34,7 @@ const RecipeEnter = () => {
             handleNameInput(e.target.value);
           }}
         />
-      </span>
+      </div>
       <Input type="file" ref={filePickerInput} className="hidden" />
       {/* TODO: Actually pick file */}
       <div className="sm:w-[350px]">
@@ -47,7 +48,7 @@ const RecipeEnter = () => {
           </Button>
         </AspectRatio>
       </div>
-      <span>
+      <div>
         <Label htmlFor={DESCRIPTION_INPUT_ID}>Description</Label>
         <Textarea
           id={DESCRIPTION_INPUT_ID}
@@ -57,7 +58,24 @@ const RecipeEnter = () => {
           value={description}
           onInput={(e) => setDescription(e.currentTarget.value)}
         />
-      </span>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h2>Ingredients</h2>
+        <ul className="flex flex-col gap-2">
+          {ingredients.map((it, i) => (
+            <li key={`ingredient ${i}`} className="flex flex-col gap-2">
+              <Label>Ingredient {i + 1}</Label>
+              <Input maxLength={30} placeholder="Eg. 1 Chicken Breast" />
+            </li>
+          ))}
+        </ul>
+        <Button
+          variant="secondary"
+          onClick={() => setIngredients([...ingredients, ""])}
+        >
+          Add ingredient
+        </Button>
+      </div>
     </div>
   );
 };
