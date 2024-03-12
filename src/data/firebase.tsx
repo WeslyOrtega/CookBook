@@ -28,7 +28,6 @@ export function uploadRecipe(recipe: RecipeType, img: File) {
       });
     });
   });
-  setDoc(doc(recipesDB), recipe);
 }
 
 const storage = getStorage(app);
