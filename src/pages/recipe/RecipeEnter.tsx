@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useRef, useState } from "react";
 import { RxCamera, RxTrash } from "react-icons/rx";
+import { uploadRecipe } from "@/src/data/firebase";
+import { Timestamp } from "firebase/firestore";
 
 const NAME_INPUT_ID = "recipe-name-input";
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
@@ -23,7 +25,7 @@ const RecipeEnter = () => {
   };
 
   const handleImgUpload = () => {
-    // Show modal + crop image
+    // TODO: Show modal + crop image
     const file = filePickerInput.current?.files?.item(0);
     if (file) {
       setImg(URL.createObjectURL(file));
@@ -62,6 +64,24 @@ const RecipeEnter = () => {
       updatedIngredients.push("");
     }
     setInstructions(updatedIngredients);
+  };
+
+  const handleSaveRecipe = () => {
+    // TODO: redirect to home and show toast
+    uploadRecipe(
+      {
+        name,
+        img_url: "",
+        ingredients,
+        instructions,
+        description,
+        tags: [],
+        id: "",
+        owner: "Wesly Ortega",
+        creation_date: Timestamp.now(),
+      },
+      filePickerInput.current?.files?.item(0)!
+    );
   };
 
   return (
@@ -177,7 +197,9 @@ const RecipeEnter = () => {
         </Button>
       </div>
       <div className="flex flex-row gap-2">
-        <Button className="w-full">Save</Button>
+        <Button className="w-full" onClick={() => handleSaveRecipe()}>
+          Save
+        </Button>
         <Button className="w-full" variant="destructive">
           Cancel
         </Button>
