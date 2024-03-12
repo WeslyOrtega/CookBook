@@ -19,17 +19,15 @@ export function getRecipe(id: string) {
   return getDoc(doc(recipesDB, id));
 }
 
-export function uploadRecipe(
+export async function uploadRecipe(
   recipe: Omit<RecipeType, "id" | "img_url">,
   img: File
 ) {
-  uploadRecipeImage(img).then((it) => {
-    getDownloadURL(it.ref).then((url) => {
-      setDoc(doc(recipesDB), {
-        ...recipe,
-        img_url: url,
-      });
-    });
+  const result = await uploadRecipeImage(img);
+  const url = await getDownloadURL(result.ref);
+  return await setDoc(doc(recipesDB), {
+    ...recipe,
+    img_url: url,
   });
 }
 
