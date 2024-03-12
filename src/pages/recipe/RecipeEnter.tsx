@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { RxCamera, RxTrash } from "react-icons/rx";
 import { uploadRecipe } from "@/src/data/firebase";
 import { Timestamp } from "firebase/firestore";
+import { Navigate } from "react-router-dom";
 
 const NAME_INPUT_ID = "recipe-name-input";
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
@@ -17,6 +18,7 @@ const RecipeEnter = () => {
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
+  const [uploaded, setUploaded] = useState(false);
 
   const filePickerInput = useRef<HTMLInputElement>(null);
 
@@ -79,7 +81,7 @@ const RecipeEnter = () => {
         creation_date: Timestamp.now(),
       },
       filePickerInput.current?.files?.item(0)!
-    );
+    ).then((_) => setUploaded(true));
   };
 
   return (
@@ -202,6 +204,7 @@ const RecipeEnter = () => {
           Cancel
         </Button>
       </div>
+      {uploaded && <Navigate to="/" />}
     </div>
   );
 };
