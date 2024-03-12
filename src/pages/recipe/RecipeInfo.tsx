@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Timestamp } from "@firebase/firestore";
-import { getRecipe, getRecipeImage } from "../../data/firebase";
+import { getRecipe } from "../../data/firebase";
 import { RecipeType } from "../../utils/recipe-utils";
 
 const RecipeInfo = () => {
@@ -28,7 +28,7 @@ const RecipeInfo = () => {
       setInstructions(data?.instructions);
       setAuthor(data?.owner);
       setUploadDate(data?.creation_date);
-      getRecipeImage(data?.img_url).then((it) => setImgUrl(it));
+      setImgUrl(data?.img_url);
     });
   }, [id]);
 
