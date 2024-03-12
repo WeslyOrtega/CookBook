@@ -71,7 +71,6 @@ const RecipeEnter = () => {
     uploadRecipe(
       {
         name,
-        img_url: "",
         ingredients,
         instructions,
         description,
