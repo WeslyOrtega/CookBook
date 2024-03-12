@@ -76,7 +76,6 @@ const RecipeEnter = () => {
         instructions,
         description,
         tags: [],
-        id: "",
         owner: "Wesly Ortega",
         creation_date: Timestamp.now(),
       },

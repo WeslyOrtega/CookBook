@@ -19,7 +19,7 @@ export function getRecipe(id: string) {
   return getDoc(doc(recipesDB, id));
 }
 
-export function uploadRecipe(recipe: RecipeType, img: File) {
+export function uploadRecipe(recipe: Omit<RecipeType, "id">, img: File) {
   uploadRecipeImage(img).then((it) => {
     getDownloadURL(it.ref).then((url) => {
       setDoc(doc(recipesDB), {
