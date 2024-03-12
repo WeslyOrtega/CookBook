@@ -7,6 +7,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 
 import firebase_config from "../resources/firebase/firebase_config.json";
 import { RecipeType } from "../utils/recipe-utils";
@@ -35,5 +36,5 @@ const storage = getStorage(app);
 const recipeImagesStorage = ref(storage, "recipe_pictures");
 
 export function uploadRecipeImage(img: File) {
-  return uploadBytes(recipeImagesStorage, img);
+  return uploadBytes(ref(recipeImagesStorage, v4()), img);
 }
