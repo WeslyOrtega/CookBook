@@ -47,7 +47,7 @@ const formSchema = z.object({
 });
 
 const RecipeEnter = () => {
-  const [img, setImg] = useState("");
+  const [img, setImg] = useState<File | undefined>(undefined);
   const [uploaded, setUploaded] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,25 +82,26 @@ const RecipeEnter = () => {
     console.log("here");
     // TODO: Show modal + crop image
     if (file) {
-      setImg(URL.createObjectURL(file));
+      form.setValue("img", URL.createObjectURL(file));
+      setImg(file);
     }
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log({ values });
     // TODO: show toast
-    // uploadRecipe(
-    //   {
-    //     name,
-    //     ingredients,
-    //     instructions,
-    //     description,
-    //     tags: [],
-    //     owner: "Wesly Ortega",
-    //     creation_date: Timestamp.now(),
-    //   },
-    //   filePickerInput.current?.files?.item(0)!
-    // ).then((_) => setUploaded(true));
+    uploadRecipe(
+      {
+        name: values.name,
+        ingredients: values.ingredients.map((it) => it.val),
+        instructions: values.instructions.map((it) => it.val),
+        description: values.description,
+        tags: [],
+        owner: "Wesly Ortega",
+        creation_date: Timestamp.now(),
+      },
+      img!
+    ).then((_) => setUploaded(true));
   };
 
   return (
@@ -133,13 +134,14 @@ const RecipeEnter = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor={FILE_INPUT_ID}>Recipe Picture</FormLabel>
+              {/* Hidden input to contain the url of the image */}
+              <Input {...field} className="hidden" />
               <Input
                 id={FILE_INPUT_ID}
                 type="file"
                 className="hidden"
                 accept="image/jpeg, image/png, image/jpg"
                 onInput={(e) => handleImgSelect(e.currentTarget.files?.item(0))}
-                {...field}
               />
               <div className="sm:w-[350px] rounded-2xl overflow-hidden aspect-square">
                 <Button
@@ -150,9 +152,14 @@ const RecipeEnter = () => {
                     document.getElementById(FILE_INPUT_ID)?.click()
                   }
                 >
-                  {img === "" && <RxCamera className="h-full w-full m-28" />}
-                  {img !== "" && (
-                    <img src={img} className="w-full h-full hover:opacity-70" />
+                  {img === undefined && (
+                    <RxCamera className="h-full w-full m-28" />
+                  )}
+                  {img !== undefined && (
+                    <img
+                      src={form.getValues("img")}
+                      className="w-full h-full hover:opacity-70"
+                    />
                   )}
                 </Button>
               </div>
@@ -260,6 +267,7 @@ const RecipeEnter = () => {
           </Button>
         </div>
       </form>
+      {uploaded && <Navigate to="/" />}
     </Form>
   );
 };
