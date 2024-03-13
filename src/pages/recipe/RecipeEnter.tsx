@@ -43,8 +43,7 @@ const formSchema = z.object({
   description: z
     .string()
     .regex(/\S+\s\S+/, { message: "Must be at least 2 words" }),
-  img: z.string(),
-  // img: z.instanceof(File, { message: "Must attach a picture" }),
+  img: z.string().min(1, { message: "Must select an image" }),
 });
 
 const RecipeEnter = () => {
