@@ -9,6 +9,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -17,7 +18,7 @@ import { uploadRecipe } from "@/src/data/firebase";
 import { Timestamp } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useToast } from "@/components/ui/use-toast";
+import ImageUploadModal from "@/src/components/Image/ImageUploadModal";
 
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
 const FILE_INPUT_ID = "recipe-img-input";
@@ -278,6 +279,7 @@ const RecipeEnter = () => {
           </Button>
         </div>
       </form>
+      <ImageUploadModal />
       {uploaded && <Navigate to="/" />}
     </Form>
   );
