@@ -57,6 +57,9 @@ const RecipeEnter = () => {
     defaultValues: {
       ingredients: [{ val: "" }],
       instructions: [{ val: "" }],
+      name: "",
+      description: "",
+      img: "",
     },
   });
   const {
@@ -130,32 +133,29 @@ const RecipeEnter = () => {
           name="img"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Recipe Picture</FormLabel>
+              <FormLabel htmlFor={FILE_INPUT_ID}>Recipe Picture</FormLabel>
               <Input
                 id={FILE_INPUT_ID}
                 type="file"
                 className="hidden"
                 accept="image/jpeg, image/png, image/jpg"
-                // ref={filePickerInput}
                 onInput={(e) => handleImgSelect(e.currentTarget.files?.item(0))}
                 {...field}
               />
               <div className="sm:w-[350px] rounded-2xl overflow-hidden aspect-square">
-                {img === "" && (
-                  <Button
-                    type="button"
-                    className="w-full h-full p-28 rounded-2xl"
-                    variant="outline"
-                    onClick={() =>
-                      document.getElementById(FILE_INPUT_ID)?.click()
-                    }
-                  >
-                    <RxCamera className="h-full w-full" />
-                  </Button>
-                )}
-                {img !== "" && (
-                  <img src={img} className="w-full h-full rounded-2xl" />
-                )}
+                <Button
+                  type="button"
+                  className="w-full h-full p-0 rounded-2xl relative"
+                  variant="outline"
+                  onClick={() =>
+                    document.getElementById(FILE_INPUT_ID)?.click()
+                  }
+                >
+                  {img === "" && <RxCamera className="h-full w-full m-28" />}
+                  {img !== "" && (
+                    <img src={img} className="w-full h-full hover:opacity-70" />
+                  )}
+                </Button>
               </div>
               <FormMessage />
             </FormItem>
