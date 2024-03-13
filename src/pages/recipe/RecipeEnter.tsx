@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import {
   Form,
   FormItem,
@@ -13,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { RxCamera, RxTrash } from "react-icons/rx";
 import { uploadRecipe } from "@/src/data/firebase";
 import { Timestamp } from "firebase/firestore";
@@ -21,6 +19,7 @@ import { Navigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
 
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
+const FILE_INPUT_ID = "recipe-img-input";
 
 const formSchema = z.object({
   name: z
@@ -44,6 +43,8 @@ const formSchema = z.object({
   description: z
     .string()
     .regex(/\S+\s\S+/, { message: "Must be at least 2 words" }),
+  img: z.string(),
+  // img: z.instanceof(File, { message: "Must attach a picture" }),
 });
 
 const RecipeEnter = () => {
@@ -75,11 +76,9 @@ const RecipeEnter = () => {
     name: "instructions",
   });
 
-  const filePickerInput = useRef<HTMLInputElement>(null);
-
-  const handleImgUpload = () => {
+  const handleImgSelect = (file?: File | null) => {
+    console.log("here");
     // TODO: Show modal + crop image
-    const file = filePickerInput.current?.files?.item(0);
     if (file) {
       setImg(URL.createObjectURL(file));
     }
@@ -122,6 +121,42 @@ const RecipeEnter = () => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="img"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Recipe Picture</FormLabel>
+              <Input
+                id={FILE_INPUT_ID}
+                type="file"
+                className="hidden"
+                accept="image/jpeg, image/png, image/jpg"
+                // ref={filePickerInput}
+                onInput={(e) => handleImgSelect(e.currentTarget.files?.item(0))}
+                {...field}
+              />
+              <div className="sm:w-[350px] rounded-2xl overflow-hidden aspect-square">
+                {img === "" && (
+                  <Button
+                    type="button"
+                    className="w-full h-full p-28 rounded-2xl"
+                    variant="outline"
+                    onClick={() =>
+                      document.getElementById(FILE_INPUT_ID)?.click()
+                    }
+                  >
+                    <RxCamera className="h-full w-full" />
+                  </Button>
+                )}
+                {img !== "" && (
+                  <img src={img} className="w-full h-full rounded-2xl" />
+                )}
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -227,30 +262,6 @@ const RecipeEnter = () => {
         </div>
       </form>
     </Form>
-    // <div className="flex flex-col gap-4">
-    //   <Input
-    //     type="file"
-    //     ref={filePickerInput}
-    //     className="hidden"
-    //     accept="image/jpeg, image/png, image/jpg"
-    //     onChange={() => handleImgUpload()}
-    //   />
-    //   <div className="sm:w-[350px] rounded-2xl overflow-hidden">
-    //     <AspectRatio ratio={1}>
-    //       {img === "" && (
-    //         <Button
-    //           className="w-full h-full p-28"
-    //           variant="outline"
-    //           onClick={() => filePickerInput.current?.click()}
-    //         >
-    //           <RxCamera className="h-full w-full" />
-    //         </Button>
-    //       )}
-    //       {img !== "" && <img src={img} className="w-full h-full" />}
-    //     </AspectRatio>
-    //   </div>
-    //   {uploaded && <Navigate to="/" />}
-    // </div>
   );
 };
 
