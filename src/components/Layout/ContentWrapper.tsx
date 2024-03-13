@@ -7,6 +7,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
 import { useTheme } from "@/components/theme-provider";
 
 import { Outlet } from "react-router-dom";
@@ -85,6 +86,7 @@ export default function ContentWrapper() {
       <main className="p-5 flex flex-col items-center">
         <div className="max-w-screen-xl w-full">
           <Outlet />
+          <Toaster />
         </div>
       </main>
       <SheetContent side="left">

@@ -17,6 +17,7 @@ import { uploadRecipe } from "@/src/data/firebase";
 import { Timestamp } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
 
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
 const FILE_INPUT_ID = "recipe-img-input";
@@ -49,6 +50,7 @@ const formSchema = z.object({
 const RecipeEnter = () => {
   const [img, setImg] = useState<File | undefined>(undefined);
   const [uploaded, setUploaded] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,7 +81,6 @@ const RecipeEnter = () => {
   });
 
   const handleImgSelect = (file?: File | null) => {
-    console.log("here");
     // TODO: Show modal + crop image
     if (file) {
       form.setValue("img", URL.createObjectURL(file));
@@ -88,8 +89,6 @@ const RecipeEnter = () => {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
-    // TODO: show toast
     uploadRecipe(
       {
         name: values.name,
@@ -101,7 +100,19 @@ const RecipeEnter = () => {
         creation_date: Timestamp.now(),
       },
       img!
-    ).then((_) => setUploaded(true));
+    ).then(
+      (_) => {
+        toast({ description: "Recipe uploaded succesfully!" });
+        setUploaded(true);
+      },
+      (_) => {
+        toast({
+          description:
+            "There was an issue uploading your recipe. Try again later",
+          variant: "destructive",
+        });
+      }
+    );
   };
 
   return (
