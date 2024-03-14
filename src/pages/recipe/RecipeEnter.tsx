@@ -197,7 +197,7 @@ const RecipeEnter = () => {
                     <FormLabel>Ingredient {i + 1}</FormLabel>
                     <div className="flex flex-row gap-4">
                       <Input
-                        maxLength={30}
+                        maxLength={100}
                         placeholder="Eg. 1 Chicken Breast"
                         {...field}
                       />
@@ -233,8 +233,9 @@ const RecipeEnter = () => {
                   <FormItem>
                     <FormLabel>Step {i + 1}</FormLabel>
                     <div className="flex flex-row gap-4">
-                      <Input
-                        maxLength={30}
+                      <Textarea
+                        autoExpand
+                        maxLength={700}
                         placeholder="Eg. 1 Chicken Breast"
                         {...field}
                       />
