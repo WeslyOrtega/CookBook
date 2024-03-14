@@ -60,7 +60,13 @@ const renderCrop = (
   ctx.restore();
 };
 
-const ImageUploadModal = () => {
+const ImageUploadModal = (props: {
+  isOpen: boolean;
+  saveImgUrl: (url: string) => void;
+  closeModal: () => void;
+}) => {
+  const { isOpen, saveImgUrl, closeModal } = props;
+
   const [stage, setStage] = useState(Stage.Upload);
   const [img, setImg] = useState("");
   const [crop, setCrop] = useState<Crop>();
@@ -91,8 +97,13 @@ const ImageUploadModal = () => {
     );
   };
 
+  const disposeModal = () => {
+    closeModal();
+    setStage(Stage.Upload);
+  };
+
   return (
-    <Dialog open>
+    <Dialog open={isOpen} onOpenChange={() => disposeModal()}>
       <DialogContent>
         <DialogHeader>
           {stage === Stage.Upload && (
@@ -113,10 +124,15 @@ const ImageUploadModal = () => {
           )}
         </DialogHeader>
         {stage === Stage.Upload && (
-          <Input
-            type="file"
-            onChange={(e) => handleImgSelected(e.currentTarget.files?.item(0))}
-          />
+          <>
+            {/* Use drop area asset */}
+            <Input
+              type="file"
+              onChange={(e) =>
+                handleImgSelected(e.currentTarget.files?.item(0))
+              }
+            />
+          </>
         )}
         {stage === Stage.Crop && (
           <>
@@ -126,24 +142,40 @@ const ImageUploadModal = () => {
               keepSelection
               aspect={1}
             >
-              <img ref={imgRef} src={img} onLoad={(e) => onImageLoad(e)}></img>
+              <img
+                className="max-w-full"
+                ref={imgRef}
+                src={img}
+                onLoad={(e) => onImageLoad(e)}
+              ></img>
             </ReactCrop>
-            <Button
-              onClick={() => {
-                renderCrop(
-                  imgRef.current!,
-                  canvasRef.current!,
-                  convertToPixelCrop(
-                    crop!,
-                    imgRef.current!.width,
-                    imgRef.current!.height
-                  )
-                );
-                canvasRef.current!.toDataURL();
-              }}
-            >
-              Apply
-            </Button>
+            <div className="w-full flex flex-row gap-4">
+              <Button
+                className="w-full"
+                variant={"secondary"}
+                onClick={() => disposeModal()}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  renderCrop(
+                    imgRef.current!,
+                    canvasRef.current!,
+                    convertToPixelCrop(
+                      crop!,
+                      imgRef.current!.width,
+                      imgRef.current!.height
+                    )
+                  );
+                  saveImgUrl(canvasRef.current!.toDataURL());
+                  disposeModal();
+                }}
+              >
+                Apply
+              </Button>
+            </div>
             <canvas className="hidden" ref={canvasRef} />
           </>
         )}

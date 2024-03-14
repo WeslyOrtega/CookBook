@@ -22,9 +22,10 @@ export function getRecipe(id: string) {
 
 export async function uploadRecipe(
   recipe: Omit<RecipeType, "id" | "img_url">,
-  img: File
+  img: string
 ) {
-  const result = await uploadRecipeImage(img);
+  const imgFile = await fetch(img).then((it) => it.blob());
+  const result = await uploadRecipeImage(imgFile);
   const url = await getDownloadURL(result.ref);
   return await setDoc(doc(recipesDB), {
     ...recipe,
@@ -35,6 +36,6 @@ export async function uploadRecipe(
 const storage = getStorage(app);
 const recipeImagesStorage = ref(storage, "recipe_pictures");
 
-export function uploadRecipeImage(img: File) {
+export function uploadRecipeImage(img: Blob) {
   return uploadBytes(ref(recipeImagesStorage, v4()), img);
 }

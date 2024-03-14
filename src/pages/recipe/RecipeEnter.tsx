@@ -49,8 +49,9 @@ const formSchema = z.object({
 });
 
 const RecipeEnter = () => {
-  const [img, setImg] = useState<File | undefined>(undefined);
+  const [imgSelected, setImgSelected] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+  const [imgModalOpen, setImgModalOpen] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -81,12 +82,9 @@ const RecipeEnter = () => {
     name: "instructions",
   });
 
-  const handleImgSelect = (file?: File | null) => {
-    // TODO: Show modal + crop image
-    if (file) {
-      form.setValue("img", URL.createObjectURL(file));
-      setImg(file);
-    }
+  const saveImgURL = (url: string) => {
+    form.setValue("img", url);
+    setImgSelected(true);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -100,7 +98,7 @@ const RecipeEnter = () => {
         owner: "Wesly Ortega",
         creation_date: Timestamp.now(),
       },
-      img!
+      values.img
     ).then(
       (_) => {
         toast({ description: "Recipe uploaded succesfully!" });
@@ -148,26 +146,15 @@ const RecipeEnter = () => {
               <FormLabel htmlFor={FILE_INPUT_ID}>Recipe Picture</FormLabel>
               {/* Hidden input to contain the url of the image */}
               <Input {...field} className="hidden" />
-              <Input
-                id={FILE_INPUT_ID}
-                type="file"
-                className="hidden"
-                accept="image/jpeg, image/png, image/jpg"
-                onInput={(e) => handleImgSelect(e.currentTarget.files?.item(0))}
-              />
               <div className="sm:w-[350px] rounded-2xl overflow-hidden aspect-square">
                 <Button
                   type="button"
                   className="w-full h-full p-0 rounded-2xl relative"
                   variant="outline"
-                  onClick={() =>
-                    document.getElementById(FILE_INPUT_ID)?.click()
-                  }
+                  onClick={() => setImgModalOpen(true)}
                 >
-                  {img === undefined && (
-                    <RxCamera className="h-full w-full m-28" />
-                  )}
-                  {img !== undefined && (
+                  {!imgSelected && <RxCamera className="h-full w-full m-28" />}
+                  {imgSelected && (
                     <img
                       src={form.getValues("img")}
                       className="w-full h-full hover:opacity-70"
@@ -279,7 +266,11 @@ const RecipeEnter = () => {
           </Button>
         </div>
       </form>
-      <ImageUploadModal />
+      <ImageUploadModal
+        isOpen={imgModalOpen}
+        saveImgUrl={saveImgURL}
+        closeModal={() => setImgModalOpen(false)}
+      />
       {uploaded && <Navigate to="/" />}
     </Form>
   );
