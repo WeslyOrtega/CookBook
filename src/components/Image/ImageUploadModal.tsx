@@ -99,6 +99,8 @@ const ImageUploadModal = (props: {
 
   const disposeModal = () => {
     closeModal();
+    setCrop(undefined);
+    setImg("");
     setStage(Stage.Upload);
   };
 
