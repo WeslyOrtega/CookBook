@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +7,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import ReactCrop, { Crop, PixelCrop, centerCrop } from "react-image-crop";
+import { useRef, useState } from "react";
+import ReactCrop, {
+  Crop,
+  PixelCrop,
+  centerCrop,
+  convertToPixelCrop,
+} from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
 enum Stage {
@@ -15,6 +21,7 @@ enum Stage {
   Crop,
 }
 
+// Src: https://youtu.be/odscV57kToU
 const renderCrop = (
   img: HTMLImageElement,
   canvas: HTMLCanvasElement,
@@ -23,13 +30,43 @@ const renderCrop = (
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  // TODO: Continue watching https://youtu.be/odscV57kToU?t=1635
+  const pixelRatio = window.devicePixelRatio;
+  const scaleX = img.naturalWidth / img.width;
+  const scaleY = img.naturalHeight / img.height;
+
+  canvas.width = Math.floor(crop.width * scaleX * pixelRatio);
+  canvas.height = Math.floor(crop.height * scaleY * pixelRatio);
+
+  ctx.scale(pixelRatio, pixelRatio);
+  ctx.imageSmoothingQuality = "high";
+  ctx.save();
+
+  const cropX = crop.x * scaleX;
+  const cropY = crop.y * scaleY;
+
+  ctx.translate(-cropX, -cropY);
+  ctx.drawImage(
+    img,
+    0,
+    0,
+    img.naturalWidth,
+    img.naturalHeight,
+    0,
+    0,
+    img.naturalWidth,
+    img.naturalHeight
+  );
+
+  ctx.restore();
 };
 
 const ImageUploadModal = () => {
   const [stage, setStage] = useState(Stage.Upload);
   const [img, setImg] = useState("");
   const [crop, setCrop] = useState<Crop>();
+
+  const imgRef = useRef<HTMLImageElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleImgSelected = (img?: File | null) => {
     if (img) {
@@ -82,14 +119,33 @@ const ImageUploadModal = () => {
           />
         )}
         {stage === Stage.Crop && (
-          <ReactCrop
-            crop={crop}
-            onChange={(_, e) => setCrop(e)}
-            keepSelection
-            aspect={1}
-          >
-            <img src={img} onLoad={(e) => onImageLoad(e)}></img>
-          </ReactCrop>
+          <>
+            <ReactCrop
+              crop={crop}
+              onChange={(_, e) => setCrop(e)}
+              keepSelection
+              aspect={1}
+            >
+              <img ref={imgRef} src={img} onLoad={(e) => onImageLoad(e)}></img>
+            </ReactCrop>
+            <Button
+              onClick={() => {
+                renderCrop(
+                  imgRef.current!,
+                  canvasRef.current!,
+                  convertToPixelCrop(
+                    crop!,
+                    imgRef.current!.width,
+                    imgRef.current!.height
+                  )
+                );
+                canvasRef.current!.toDataURL();
+              }}
+            >
+              Apply
+            </Button>
+            <canvas className="hidden" ref={canvasRef} />
+          </>
         )}
       </DialogContent>
     </Dialog>
