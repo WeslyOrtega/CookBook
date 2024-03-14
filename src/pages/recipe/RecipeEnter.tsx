@@ -23,6 +23,7 @@ import ImageUploadModal from "@/src/components/Image/ImageUploadModal";
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
 const FILE_INPUT_ID = "recipe-img-input";
 
+// Look into triggering validation on different events for each field
 const formSchema = z.object({
   name: z
     .string()
@@ -149,6 +150,7 @@ const RecipeEnter = () => {
               <Input {...field} className="hidden" />
               <div className="sm:w-[350px] rounded-2xl overflow-hidden aspect-square">
                 <Button
+                  id={FILE_INPUT_ID}
                   type="button"
                   className="w-full h-full p-0 rounded-2xl relative"
                   variant="outline"
