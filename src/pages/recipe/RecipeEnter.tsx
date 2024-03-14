@@ -119,6 +119,7 @@ const RecipeEnter = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
+        autoComplete="off"
       >
         <FormField
           control={form.control}
