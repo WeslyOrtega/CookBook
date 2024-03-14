@@ -51,6 +51,8 @@ const formSchema = z.object({
 });
 
 const RecipeEnter = () => {
+  // TODO: Look into moving this into useLoading like toast
+  // TODO: also disable scrolling while loading
   const [loading, setLoading] = useState(false);
   const [imgSelected, setImgSelected] = useState(false);
   const [uploaded, setUploaded] = useState(false);
