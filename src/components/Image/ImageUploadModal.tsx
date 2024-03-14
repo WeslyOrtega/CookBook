@@ -127,7 +127,7 @@ const ImageUploadModal = (props: {
         </DialogHeader>
         {stage === Stage.Upload && (
           <>
-            {/* Use drop area asset */}
+            {/* TODO: Use drop area asset */}
             <Input
               type="file"
               onChange={(e) =>
