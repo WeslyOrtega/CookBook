@@ -19,6 +19,7 @@ import { Timestamp } from "firebase/firestore";
 import { Navigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
 import ImageUploadModal from "@/src/components/Image/ImageUploadModal";
+import LoadingSpinner from "@/src/components/Spinner/LoadingSpinner";
 
 const DESCRIPTION_INPUT_ID = "recipe-description-input";
 const FILE_INPUT_ID = "recipe-img-input";
@@ -50,6 +51,7 @@ const formSchema = z.object({
 });
 
 const RecipeEnter = () => {
+  const [loading, setLoading] = useState(false);
   const [imgSelected, setImgSelected] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [imgModalOpen, setImgModalOpen] = useState(false);
@@ -102,6 +104,7 @@ const RecipeEnter = () => {
       values.img
     ).then(
       (_) => {
+        setLoading(false);
         toast({ description: "Recipe uploaded succesfully!" });
         setUploaded(true);
       },
@@ -113,6 +116,7 @@ const RecipeEnter = () => {
         });
       }
     );
+    setLoading(true);
   };
 
   return (
@@ -122,6 +126,11 @@ const RecipeEnter = () => {
         className="flex flex-col gap-4"
         autoComplete="off"
       >
+        {loading && (
+          <div className="fixed inset-0 z-50 bg-black/80">
+            <LoadingSpinner className="w-10 h-10 absolute z-10 top-1/2 left-1/2" />
+          </div>
+        )}
         <FormField
           control={form.control}
           name="name"
@@ -152,7 +161,7 @@ const RecipeEnter = () => {
                 <Button
                   id={FILE_INPUT_ID}
                   type="button"
-                  className="w-full h-full p-0 rounded-2xl relative"
+                  className="w-full h-full p-0 rounded-2xl"
                   variant="outline"
                   onClick={() => setImgModalOpen(true)}
                 >
